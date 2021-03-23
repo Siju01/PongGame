@@ -144,52 +144,48 @@ void Thread() { //function of thread
 	Player PlayerX('X'); //create player instance once
 	Player PlayerY = PlayerX; //clone previous to new player (deep player)
 
-start:
 	//simulation flow (Main Loop)
 	while (scr.getX() < 10 && scr.getY() < 10) { //stop apllication if any player has score 10
 		bool h = false;
 		// Start from random player, player X or player Y
 		while (h == false) {
-			if (PlayerX.randomPlayer() == 'X')
-			{
+			if (PlayerX.randomPlayer() == 'X') { //If random player is player Y
 				cout << "\nPLAYER X : " << endl;
 
-			startAgain:
+				start:
 				//Create 2 thread and cast each player instance to each thread
 				//Player X thread 
 				thread tx(hitPlayer, &PlayerX, &h);
 				tx.join();
-
 				if (h == true)
-					break;
+				break;
 
 				// Player Y Thread
 				thread ty(hitPlayer, &PlayerY, &h);
 				ty.join();
 				if (h == true)
-					break;
+				break;
 				else
-					goto startAgain;
+				goto start;
 			}
 
 			else { //if random player is player Y
 				cout << "\nPLAYER Y : " << endl;
-			startAgain2:
+
+				start2:
 				// Player Y Thread
 				thread ty(hitPlayer, &PlayerY, &h);
 				ty.join();
-
 				if (h == true)
-					break;
+				break;
 
 				// Player X Thread
 				thread tx(hitPlayer, &PlayerX, &h);
 				tx.join();
-
 				if (h == true)
-					break;
+				break;
 				else
-					goto startAgain2;
+				goto start2;
 			}
 		}
 	}
